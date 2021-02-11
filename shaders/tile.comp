@@ -1,0 +1,17 @@
+layout (binding=0, rgba8) writeonly uniform image2D renderTexture;
+layout (binding=1, rgba8) readonly uniform image2D sourceTexture;
+
+// uniform int xCount;
+// uniform int yCount;
+
+layout (local_size_x = 16, local_size_y = 16) in;
+void main() {
+    ivec2 position = ivec2(gl_GlobalInvocationID.xy);
+    vec2 resolution = imageSize(renderTexture);
+    
+    vec2 p = vec2(position);
+    vec2 pos = fract(p);
+    
+    vec4 color = imageLoad(sourceTexture, ivec2(pos));
+    imageStore(renderTexture, position, color);
+}

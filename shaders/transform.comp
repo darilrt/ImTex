@@ -1,0 +1,27 @@
+#define TO_RAD 0.01745329252
+
+layout (binding=0, rgba8) writeonly uniform image2D renderTexture;
+layout (binding=1, rgba8) readonly uniform image2D sourceTexture;
+
+uniform vec2 offset;
+uniform vec2 scale;
+uniform float rotation;
+
+layout (local_size_x = 16, local_size_y = 16) in;
+void main() {
+    ivec2 position = ivec2(gl_GlobalInvocationID.xy);
+    vec2 resolution = imageSize(renderTexture);
+    
+    float r = rotation * TO_RAD;
+    float s = sin(r);
+    float c = cos(r);
+    mat2 m = mat2(c, -s, s, c);
+    
+    vec2 sc = resolution / scale;
+    vec2 pos = ((position - vec2(offset.x, -offset.y) - resolution/2.0) * m) * sc;
+    pos += resolution / 2.0;
+    
+    vec3 color = imageLoad(sourceTexture, ivec2(pos)).rgb;
+    
+    imageStore(renderTexture, position, vec4(color, 1.0));
+}

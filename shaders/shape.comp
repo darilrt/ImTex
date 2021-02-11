@@ -1,0 +1,24 @@
+#define PI 3.14159265359
+#define TWO_PI 6.28318530718
+#define TO_RAD 0.01745329252
+
+layout (binding=0, rgba8) writeonly uniform image2D renderTexture;
+
+uniform vec2 offset;
+uniform int corners;
+uniform float shapeStart;
+uniform float gradientStart;
+uniform float rotation;
+
+layout (local_size_x = 16, local_size_y = 16) in;
+void main() {
+    ivec2 position = ivec2(gl_GlobalInvocationID.xy);
+    ivec2 resolution = imageSize(renderTexture);
+    
+    vec2 coord = (position - vec2(offset.x, -offset.y)) / resolution - 0.5;
+    float a = atan(coord.x, coord.y) + PI + rotation * TO_RAD;
+    float b = TWO_PI / float(corners);
+    float c = smoothstep(shapeStart, gradientStart, cos(floor(0.5 + a / b) * b - a) * length(coord));
+    
+    imageStore(renderTexture, position, vec4(c, c, c, 1.0));
+}

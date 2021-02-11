@@ -1,0 +1,21 @@
+layout (binding=0, rgba8) writeonly uniform image2D renderTexture;
+layout (binding=1, rgba8) readonly uniform image2D sourceTexture;
+
+layout (local_size_x = 16, local_size_y = 16) in;
+void main() {
+    ivec2 position = ivec2(gl_GlobalInvocationID.xy);
+    vec2 resolution = imageSize(renderTexture);
+    
+    float scale = 0.5;
+    vec4 height = imageLoad(sourceTexture, position).r;
+    vec2 step = 1.0;
+    
+    vec2 dxy = height - vec2(
+      imageLoad(sourceTexture, position + ivec2(step.x, 0.)).r, 
+      imageLoad(sourceTexture, position + ivec2(0., step.y)).r
+    );
+
+    vec3 color = normalize(vec3(dxy * scale / step, 0.1)) * 0.5 + 0.5;
+
+    imageStore(renderTexture, position, vec4(color, 1.0));
+}

@@ -1,0 +1,20 @@
+Duplicate nodes - Ctrl + D
+Material Preview
+
+gray_scale = 0.2126 R + 0.7152 G + 0.0722 B
+Nodes:
+    Color + 
+    Transform + 
+    Noise
+    Blur
+    Ramp
+    Tile
+    Lerp + 
+    Normal -> https://www.shadertoy.com/view/MsScRt
+    Import Texture
+
+Export Texture
+
+Future:
+    Interactive texture preview
+    Tooltips

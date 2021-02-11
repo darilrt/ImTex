@@ -1,0 +1,25 @@
+layout (binding=0, rgba8) writeonly uniform image2D renderTexture;
+layout (binding=1, rgba8) readonly uniform image2D source1Texture;
+layout (binding=2, rgba8) readonly uniform image2D source2Texture;
+layout (binding=3, rgba8) readonly uniform image2D factorTexture;
+
+uniform float factor;
+
+layout (local_size_x = 16, local_size_y = 16) in;
+void main() {
+    ivec2 position = ivec2(gl_GlobalInvocationID.xy);
+    vec2 resolution = imageSize(renderTexture);
+    
+    vec4 color1 = imageLoad(source1Texture, ivec2(position));
+    vec4 color2 = imageLoad(source2Texture, ivec2(position));
+    
+    if (factor < 0) {
+        vec4 color3 = imageLoad(factorTexture, ivec2(position));
+        float _factor = dot(vec3(0.2126, 0.7152, 0.0722), color3);
+        
+        imageStore(renderTexture, position, mix(color1, color2, _factor));
+    }
+    else {
+        imageStore(renderTexture, position, mix(color1, color2, factor));
+    }
+}
