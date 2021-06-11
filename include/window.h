@@ -1,9 +1,9 @@
 #ifndef H_WINDOW
 #define H_WINDOW
 
-#include <gl/glew.h>
-#include <gl/glu.h>
-#include <gl/gl.h>
+#include <GL/glew.h>
+#include <GL/glu.h>
+#include <GL/gl.h>
 #include <glm/glm.hpp>
 
 #include "imgui.h"

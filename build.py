@@ -1,5 +1,6 @@
 # version: 1.0
 
+from sys import platform
 import subprocess
 import sys
 import os
@@ -18,14 +19,21 @@ OPTIONS = [
     # "-mwindows"
 ]
 
-LIBS = [
-    "glew32s",
-    "glu32",
-    "opengl32",
-    "mingw32",
-    "SDL2main",
-    "SDL2",
-]
+LIBS = []
+
+if platform == "win32":
+    LIBS = [
+        "glew32s",
+        "glu32",
+        "opengl32",
+        "mingw32",
+        "SDL2main",
+        "SDL2",
+    ]
+
+elif platform == "darwin":
+    LIBS = [
+    ]
 
 NAME = "imtex.exe"
 # CC CONFIGURATION ------------------------

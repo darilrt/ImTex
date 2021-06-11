@@ -1,6 +1,6 @@
-#include <gl/glew.h>
-#include <gl/gl.h>
-#include <gl/glu.h>
+#include <GL/glew.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #include <iostream>
 #include <cstdlib>

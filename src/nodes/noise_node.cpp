@@ -16,7 +16,7 @@ NoiseNode::NoiseNode() {
     outPoints.push_back(new NodePoint(this, "Texture"));
     
     if (!computeShader) {
-        computeShader = ComputeShader::Load("<Compute shader>");
+        computeShader = ComputeShader::Load("simple_noise");
     }
     
     // init properties
